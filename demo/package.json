@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "name": "demo",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "clean": "gatsby clean"
+  },
+  "dependencies": {
+    "gatsby": "^2.13.45",
+    "gatsby-theme-courses": "*",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
+}

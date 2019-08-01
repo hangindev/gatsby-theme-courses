@@ -1,0 +1,39 @@
+---
+title: Lecture 4 — How to Store and Use Bitcoins
+youtubeId: NKqHXoYZvMg
+duration: 4871
+---
+
+## Assignment 2: Consensus from trust
+
+For this assignment, you will design and implement a distributed consensus algorithm given a graph of “trust” relationships between nodes. This is an alternative method of resisting sybil attacks and achieving consensus; it has the benefit of not “wasting” electricity like proof-of-work does.
+
+Nodes in the network are either compliant or malicious. You will write a CompliantNode class (which implements a provided Node interface) that defines the behavior of each of the compliant nodes. The network is a directed random graph, where each edge represents a trust relationship. For example, if there is an A → B edge, it means that Node B listens to transactions broadcast by node A. We say that B is A’s follower and A is B’s followee.
+
+The provided Node class has the following API:
+
+```java
+public interface Node {
+  // NOTE: Node is an interface and does not have a constructor.
+  // However, your CompliantNode.java class requires a 4 argument
+  // constructor as defined in the provided CompliantNode.java.
+  // This constructor gives your node information about the simulation
+  // including the number of rounds it will run for.
+
+  /** {@code followees[i]} is true if this node follows node {@code i} */
+  void setFollowees ( boolean [] followees);
+
+  /** initialize proposal list of transactions */
+  void setPendingTransaction ( Set<Transaction> pendingTransactions);
+
+  /**
+  * @return proposals to send to my followers. REMEMBER: After final round,
+  * behavior of { @code getProposals} changes and it should return the
+  * transactions upon which consensus has been reached.
+  */
+  Set<Transaction> sendToFollowers ();
+  
+  /** receive candidates from other nodes. */
+  void receiveFromFollowees ( Set<Candidate> candidates);
+}
+```
