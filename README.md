@@ -2,7 +2,11 @@
   The Gatsby course theme
 </h1>
 
-A Gatsby theme for creating a course platform.
+A Gatsby theme for creating a course platform, using Youtube as video host.
+
+Courses are consisted of lessons and are represented in the folder structure(see demo). Every directory in the contentPath represent a course. Course info(title, tags, description) and lesson info(title, youtubeId, note) are stored as `.mdx` file under the course directory.
+
+Authenication logic can be add to the `Classroom` component to separte restricted access materials.
 
 ## Installation
 
@@ -22,8 +26,8 @@ npm install --save @hangindev/gatsby-theme-courses
 
 | Key           | Default value     | Description                                                                                               |
 | ------------- | ----------------- | --------------------------------------------------------------------------------------------------------- |
-| `basePath`    | `/`               | Root url for all course posts                                                                             |
-| `contentPath` | `content/courses` | Location of course posts                                                                                  |
+| `basePath`    | `/`               | Root url for all course courses                                                                           |
+| `contentPath` | `content/courses` | Location of course courses                                                                                |
 | `assetPath`   | `content/assets`  | Location of assets                                                                                        |
 | `mdx`         | `true`            | Configure `gatsby-plugin-mdx` (if your website already is using the plugin pass `false` to turn this off) |
 
