@@ -1,8 +1,12 @@
 {
-  "name": "gatsby-theme-courses",
-  "version": "1.0.0",
+  "name": "@hangindev/gatsby-theme-courses",
+  "version": "1.0.1",
   "description": "A Gatsby theme for publishing courses",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hangindev/gatsby-theme-courses.git"
+  },
   "keywords": [
     "gatsby",
     "gatsby-theme",

@@ -2,7 +2,7 @@
   The Gatsby course theme
 </h1>
 
-A Gatsby theme for creating a course platform.
+A Gatsby theme for creating a course platform using Youtube as a video host.
 
 ## Installation
 

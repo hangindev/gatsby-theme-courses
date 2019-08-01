@@ -1,5 +1,5 @@
 import React from "react"
-
+import { graphql } from 'gatsby'
 import Courses from "../components/Courses"
 
 export default ({

@@ -9,8 +9,8 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
+    "@hangindev/gatsby-theme-courses": "^1.0.1",
     "gatsby": "^2.13.45",
-    "gatsby-theme-courses": "*",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   }
