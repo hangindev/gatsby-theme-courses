@@ -9,7 +9,7 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
-    "@hangindev/gatsby-theme-courses": "^1.0.6",
+    "@hangindev/gatsby-theme-courses": "1.0.8",
     "build": "^0.1.4",
     "gatsby": "^2.13.45",
     "react": "^16.8.6",
