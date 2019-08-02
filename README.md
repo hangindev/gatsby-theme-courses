@@ -2,6 +2,8 @@
   A Gatsby course theme
 </h1>
 
+![hangindev gatsby-theme-courses](https://raw.githubusercontent.com/hangindev/gatsby-theme-courses/master/demo.jpg)
+
 A Gatsby theme for creating a course platform, using Youtube as video host.
 
 ## Features
