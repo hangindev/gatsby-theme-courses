@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
 import { durationInText } from '../utils';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 const List = styled.ul`
   list-style-type: none;
@@ -30,6 +31,14 @@ const ListItem = styled.div`
       border-left: none;
     }
   }
+  &[data-watched='true'] {
+    p {
+      border-left: 4px solid ${({ theme }) => theme.colors.primary500};
+      &:first-child {
+        border-left: none;
+      }
+    }
+  }
 `;
 const Duration = styled.small`
   margin-left: 0.5em;
@@ -39,21 +48,26 @@ const Duration = styled.small`
   color: rgba(0, 0, 0, 0.5);
 `;
 function VideoList({ lessons, className }) {
+  const [progess] = useLocalStorage('gatsby-theme-courses/progress', {});
   return (
     <List className={className}>
-      {lessons.map((lesson, index) => (
-        <li>
-          <Link to={lesson.slug}>
-            <ListItem>
-              <p>{index + 1}</p>
-              <p>
-                {lesson.title}
-                <Duration>{durationInText(lesson.duration)}</Duration>{' '}
-              </p>
-            </ListItem>
-          </Link>
-        </li>
-      ))}
+      {lessons.map((lesson, index) => {
+        const watched = !!progess[lesson.id];
+        return (
+          <li key={lesson.slug}>
+            <Link to={lesson.slug}>
+              <ListItem data-watched={watched}>
+                <p>{index + 1}</p>
+                <p>
+                  {watched ? '✓ ' : ''}
+                  {lesson.title}
+                  <Duration>{durationInText(lesson.duration)}</Duration>{' '}
+                </p>
+              </ListItem>
+            </Link>
+          </li>
+        );
+      })}
     </List>
   );
 }

@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'gatsby';
+import { Link, navigate } from 'gatsby';
 import Img from 'gatsby-image';
 import VideoSelector from './VideoSelector';
-import Player from './Player';
 import Note from './Note';
+import LessonPlayer from './LessonPlayer';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 const Wrapper = styled.section`
   padding: 2rem 1rem;
@@ -28,11 +29,25 @@ const Main = styled.div`
 `;
 const Screen = styled.div`
   flex: 1;
+  position: relative;
 `;
-function Classroom({ location, course, lesson, className }) {
+
+function Classroom({ location, course, lesson, next, className }) {
+  const [progess, setProgress] = useLocalStorage(
+    'gatsby-theme-courses/progress',
+    {}
+  );
+  const [autoplay] = useLocalStorage('gatsby-theme-courses/autoplay', false);
+
+  function handleVideoEnd() {
+    setProgress({ ...progess, [lesson.id]: true });
+    if (next && autoplay) {
+      navigate(next.slug);
+    }
+  }
   function renderContent() {
     if (lesson && lesson.youtubeId) {
-      return <Player id={lesson.youtubeId} />;
+      return <LessonPlayer lesson={lesson} onEnd={handleVideoEnd} />;
     }
     if (course.coverImage) {
       return (

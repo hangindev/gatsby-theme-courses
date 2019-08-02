@@ -3,11 +3,13 @@ import styled from 'styled-components';
 import findIndex from 'lodash/findIndex';
 import VideoNav from './VideoNav';
 import VideoList from './VideoList';
+import AutoplaySwitch from './AutoplaySwitch';
 
 const Selector = styled.div`
   margin: 1rem;
   display: flex;
   flex-direction: column;
+  position: relative;
   ${({ theme }) => `
     ${theme.media.desktop} {
       width: 380px;
@@ -22,6 +24,11 @@ const Header = styled.div`
   .title {
     margin: 0;
   }
+`;
+const StyledAutoplaySwitch = styled(AutoplaySwitch)`
+  position: absolute;
+  top: 0;
+  right: 1rem;
 `;
 
 function VideoSelector({ location, course: { title, lessons }, className }) {
@@ -43,6 +50,7 @@ function VideoSelector({ location, course: { title, lessons }, className }) {
       <Header>
         {nowPlaying && (
           <>
+            <StyledAutoplaySwitch />
             <small>
               Now playing {nowPlayingIndex + 1}/{lessons.length}
             </small>

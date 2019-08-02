@@ -139,7 +139,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           title
         }
       }
-      allCourse(sort: { fields: [lastUpdated, title], order: DESC }) {
+      allCourse(sort: { fields: [lastUpdated, title], order: ASC }) {
         edges {
           node {
             id
@@ -171,8 +171,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   // Create a page for each Course
   courses.forEach(({ node: course }, index) => {
-    const previous = index === courses.length - 1 ? null : courses[index + 1];
-    const next = index === 0 ? null : courses[index - 1];
+    const next = index === courses.length - 1 ? null : courses[index + 1];
+    const previous = index === 0 ? null : courses[index - 1];
     const { slug, lessons } = course;
     createPage({
       path: slug,
@@ -186,8 +186,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     });
     // Create a page for each Lesson
     lessons.forEach((lesson, index) => {
-      const previous = index === lessons.length - 1 ? null : lessons[index + 1];
-      const next = index === 0 ? null : lessons[index - 1];
+      const next = index === lessons.length - 1 ? null : lessons[index + 1];
+      const previous = index === 0 ? null : lessons[index - 1];
       createPage({
         path: lesson.slug,
         component: LessonTemplate,

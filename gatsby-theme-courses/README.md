@@ -4,6 +4,12 @@
 
 A Gatsby theme for creating a course platform, using Youtube as video host.
 
+## Features
+
+- Save learning progress
+
+- Autoplay option
+
 ## Installation
 
 ```sh
@@ -94,9 +100,5 @@ module.exports = {
 ### Roadmap
 
 [ ] Read Youtube video duration with API
-
-[ ] Autoplay
-
-[ ] Save progress
 
 [ ] Restriced access

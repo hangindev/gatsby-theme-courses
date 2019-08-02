@@ -4,12 +4,15 @@ import Layout from '../components/Layout';
 import SEO from '../components/seo';
 import CourseList from '../components/CourseList';
 import CoursePreview from '../components/CoursePreview';
+import CoursesHeader from '../components/CoursesHeader';
+import CoursesFooter from '../components/CoursesFooter';
 
 function CoursesPage({ location, data: { allCourse } }) {
   const courses = allCourse.edges;
   return (
     <Layout location={location}>
       <SEO title="Courses" />
+      <CoursesHeader />
       <h3>Courses</h3>
       <CourseList>
         {courses.length === 0 && <p>No courses.</p>}
@@ -17,6 +20,7 @@ function CoursesPage({ location, data: { allCourse } }) {
           <CoursePreview key={node.id} {...node} />
         ))}
       </CourseList>
+      <CoursesFooter />
     </Layout>
   );
 }

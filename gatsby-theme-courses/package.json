@@ -1,6 +1,6 @@
 {
   "name": "@hangindev/gatsby-theme-courses",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "author": "Jason Leung <hangindev@gmail.com>",
   "description": "A Gatsby theme for building course platform. Use Youtube as video host.",
   "main": "index.js",
@@ -63,6 +63,7 @@
     "lodash": "^4.17.15",
     "react-helmet": "^5.2.1",
     "react-responsive-embed": "^2.1.0",
+    "react-youtube": "^7.9.0",
     "remark-slug": "^5.1.2",
     "styled-components": "^4.3.2",
     "typeface-oswald": "^0.0.75",

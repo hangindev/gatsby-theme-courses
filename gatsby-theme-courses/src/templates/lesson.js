@@ -4,11 +4,20 @@ import Layout from '../components/Layout';
 import SEO from '../components/seo';
 import Classroom from '../components/Classroom';
 
-function LessonPage({ location, pageContext: { course }, data: { lesson } }) {
+function LessonPage({
+  location,
+  pageContext: { course, next },
+  data: { lesson },
+}) {
   return (
     <Layout>
       <SEO title={course.title} />
-      <Classroom course={course} lesson={lesson} location={location} />
+      <Classroom
+        course={course}
+        lesson={lesson}
+        location={location}
+        next={next}
+      />
     </Layout>
   );
 }
