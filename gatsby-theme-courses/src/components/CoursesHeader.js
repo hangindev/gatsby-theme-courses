@@ -10,10 +10,30 @@ function CoursesHeader() {
           listStyleType: 'none',
         }}
       >
-        <li>📝 Use mdx file to store course & lesson information and notes.</li>
-        <li>▶ Youtube as video host</li>
-        <li>✔ Support autoplay</li>
-        <li>✔ Save learning progress</li>
+        <li>
+          <span role="img" aria-label="memo">
+            📝
+          </span>{' '}
+          Use mdx file to store course & lesson information and notes.
+        </li>
+        <li>
+          <span role="img" aria-label="play button">
+            ▶
+          </span>{' '}
+          Youtube as video host
+        </li>
+        <li>
+          <span role="img" aria-label="check mark">
+            ✔
+          </span>{' '}
+          Support autoplay
+        </li>
+        <li>
+          <span role="img" aria-label="check mark">
+            ✔
+          </span>{' '}
+          Save learning progress
+        </li>
       </ul>
     </header>
   );
