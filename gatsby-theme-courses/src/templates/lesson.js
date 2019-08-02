@@ -1,20 +1,23 @@
-import React from "react"
-import { graphql } from "gatsby"
+import React from 'react';
+import { graphql } from 'gatsby';
+import Layout from '../components/Layout';
+import SEO from '../components/seo';
+import Classroom from '../components/Classroom';
 
-import Classroom from "../components/Classroom"
-
-export default ({
-  location,
-  pageContext: { course },
-  data: { lesson }
-}) => {
+function LessonPage({ location, pageContext: { course }, data: { lesson } }) {
   return (
-  <Classroom course={course} lesson={lesson} location={location}/>
-)
+    <Layout>
+      <SEO title={course.title} />
+      <Classroom course={course} lesson={lesson} location={location} />
+    </Layout>
+  );
 }
+
+export default LessonPage;
+
 export const pageQuery = graphql`
   query($id: String!) {
-    lesson(id: { eq: $id }){
+    lesson(id: { eq: $id }) {
       id
       body
       title
@@ -22,4 +25,4 @@ export const pageQuery = graphql`
       youtubeId
     }
   }
-`
+`;

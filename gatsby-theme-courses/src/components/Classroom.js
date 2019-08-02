@@ -1,49 +1,62 @@
-import React from "react"
-import { css, Styled } from "theme-ui"
-import Img from "gatsby-image"
-import LessonControl from "./LessonControl"
-import Player  from "./Player"
-import Note  from "./Note"
-import SEO from "./seo"
+import React from 'react';
+import styled from 'styled-components';
+import { Link } from 'gatsby';
+import Img from 'gatsby-image';
+import VideoSelector from './VideoSelector';
+import Player from './Player';
+import Note from './Note';
 
-export default ({ location, course, lesson }) => {
-  const title = lesson && lesson.title? lesson.title: course.title
+const Wrapper = styled.section`
+  padding: 2rem 1rem;
+  .title {
+    margin-top: 0;
+  }
+  ${({ theme }) => `
+    ${theme.media.desktop} {
+      padding: 3rem 1rem;
+    }
+  `}
+`;
+const Main = styled.div`
+  display: flex;
+  flex-direction: column;
+  ${({ theme }) => `
+    ${theme.media.desktop} {
+      flex-direction: row;
+    }
+  `}
+`;
+const Screen = styled.div`
+  flex: 1;
+`;
+function Classroom({ location, course, lesson, className }) {
   function renderContent() {
-    if(lesson && lesson.youtubeId) {
-      return <Player id={lesson.youtubeId} />
+    if (lesson && lesson.youtubeId) {
+      return <Player id={lesson.youtubeId} />;
     }
-    else if (course.coverImage) {
-      return <Img fluid={course.coverImage.childImageSharp.fluid} alt={title}/>
+    if (course.coverImage) {
+      return (
+        <Img
+          fluid={course.coverImage.childImageSharp.fluid}
+          alt={lesson && lesson.title ? lesson.title : course.title}
+        />
+      );
     }
-    return <div/>;
+    return <div />;
   }
-  function renderBody() {
-    const body = lesson && lesson.body? lesson.body: course.body
-    return <Note title={title} body={body}></Note>
-  }
+
   return (
-  <Styled.root>
-    <SEO title={title} />
-    <main css={css({
-        maxWidth: 1400,
-        mx: `auto`
-      })}>
-      <section css={css({
-        display: `flex`,
-        mb: 3,
-        px: 1,
-        py: 1,
-      })}>
-      <div css={css({
-        flex:1 ,
-      })}>
-        {renderContent()}
-      </div>
-        <LessonControl course={course} location={location}/>
-      </section>
-      <section>
-        {renderBody()}
-      </section>
-    </main>
-  </Styled.root>
-)}
+    <Wrapper className={className}>
+      <Link to={course.slug}>
+        <h3 className="title">{course.title}</h3>
+      </Link>
+      <Main>
+        <Screen>{renderContent()}</Screen>
+        <VideoSelector course={course} location={location} />
+      </Main>
+      <Note body={lesson && lesson.body ? lesson.body : course.body} />
+    </Wrapper>
+  );
+}
+
+export default Classroom;

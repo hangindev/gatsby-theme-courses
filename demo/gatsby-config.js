@@ -4,15 +4,13 @@ module.exports = {
       resolve: `@hangindev/gatsby-theme-courses`,
       options: {
         contentPath: "content/courses",
-        assetPath: "content/assets",
       },
     },
   ],
-  // Customize your site metadata:
   siteMetadata: {
-    title: `My Course Title`,
+    title: `@hangindev/gatsby-theme-courses`,
     author: `Hangindev`,
-    description: `My site description...`,
+    description: `Demo site of gatsby theme @hangindev/gatsby-theme-courses`,
     social: [
       {
         name: `github`,

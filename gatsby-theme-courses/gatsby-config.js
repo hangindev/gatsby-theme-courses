@@ -1,10 +1,10 @@
 module.exports = options => {
-  const { mdx = true } = options
+  const { mdx = true } = options;
   return {
     siteMetadata: {
-      title: `My Course Platform`,
+      title: `@hagnindev/gatsby-theme-courses`,
       author: `HanginDev`,
-      description: `Description placeholder`,
+      description: `A Gatsby theme for building course platform. Use Youtube as video host.`,
       social: [
         {
           name: `GitHub`,
@@ -39,19 +39,9 @@ module.exports = options => {
           name: options.contentPath || `content/courses`,
         },
       },
-      {
-        resolve: `gatsby-source-filesystem`,
-        options: {
-          path: options.assetPath || `content/assets`,
-          name: options.assetPath || `content/assets`,
-        },
-      },
       `gatsby-transformer-sharp`,
       `gatsby-plugin-sharp`,
       `gatsby-plugin-react-helmet`,
-      `gatsby-plugin-twitter`,
-      `gatsby-plugin-emotion`,
-      `gatsby-plugin-theme-ui`,
     ].filter(Boolean),
-  }
-}
+  };
+};

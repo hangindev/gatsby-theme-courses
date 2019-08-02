@@ -1,42 +1,37 @@
-const fs = require(`fs`)
-const path = require(`path`)
-const mkdirp = require(`mkdirp`)
-const crypto = require(`crypto`)
-const Debug = require(`debug`)
-const { createFilePath } = require(`gatsby-source-filesystem`)
+const fs = require(`fs`);
+const path = require(`path`);
+const mkdirp = require(`mkdirp`);
+const crypto = require(`crypto`);
+const Debug = require(`debug`);
+const { createFilePath } = require(`gatsby-source-filesystem`);
 
-const debug = Debug(`gatsby-theme-blog`)
+const debug = Debug(`gatsby-theme-blog`);
 
 // These are customizable theme options we only need to check once
-let basePath
-let contentPath
-let assetPath
+let basePath;
+let contentPath;
 
 // These templates are simply data-fetching wrappers that import components
-const CourseTemplate = require.resolve(`./src/templates/course`)
-const CoursesTemplate = require.resolve(`./src/templates/courses`)
-const LessonTemplate = require.resolve(`./src/templates/lesson`)
+const CourseTemplate = require.resolve(`./src/templates/course`);
+const CoursesTemplate = require.resolve(`./src/templates/courses`);
+const LessonTemplate = require.resolve(`./src/templates/lesson`);
 
 // Ensure that content directories exist at site-level
 exports.onPreBootstrap = ({ store }, themeOptions) => {
-  const { program } = store.getState()
+  const { program } = store.getState();
 
-  basePath = themeOptions.basePath || `/`
-  contentPath = themeOptions.contentPath || `content/courses`
-  assetPath = themeOptions.assetPath || `content/assets`
+  basePath = themeOptions.basePath || `/`;
+  contentPath = themeOptions.contentPath || `content/courses`;
 
-  const dirs = [
-    path.join(program.directory, contentPath),
-    path.join(program.directory, assetPath),
-  ]
+  const dirs = [path.join(program.directory, contentPath)];
 
   dirs.forEach(dir => {
-    debug(`Initializing ${dir} directory`)
+    debug(`Initializing ${dir} directory`);
     if (!fs.existsSync(dir)) {
-      mkdirp.sync(dir)
+      mkdirp.sync(dir);
     }
-  })
-}
+  });
+};
 
 const mdxResolverPassthrough = fieldName => async (
   source,
@@ -44,18 +39,18 @@ const mdxResolverPassthrough = fieldName => async (
   context,
   info
 ) => {
-  const type = info.schema.getType(`Mdx`)
+  const type = info.schema.getType(`Mdx`);
   const mdxNode = context.nodeModel.getNodeById({
     id: source.parent,
-  })
-  const resolver = type.getFields()[fieldName].resolve
+  });
+  const resolver = type.getFields()[fieldName].resolve;
   const result = await resolver(mdxNode, args, context, {
     fieldName,
-  })
-  return result
-}
+  });
+  return result;
+};
 exports.sourceNodes = async ({ getNodesByType, actions, schema }) => {
-  const { createTypes } = actions
+  const { createTypes } = actions;
   createTypes(
     schema.buildObjectType({
       name: `Lesson`,
@@ -90,7 +85,7 @@ exports.sourceNodes = async ({ getNodesByType, actions, schema }) => {
       },
       interfaces: [`Node`],
     })
-  )
+  );
   createTypes(
     schema.buildObjectType({
       name: `Course`,
@@ -120,9 +115,10 @@ exports.sourceNodes = async ({ getNodesByType, actions, schema }) => {
         },
         lessons: {
           type: `[Lesson!]`,
-          resolve: source => getNodesByType(`Lesson`)
-            .filter(lesson => lesson.slug.startsWith(source.slug))
-            .sort((a,b) => (a.slug > b.slug) ? 1 : ((b.slug > a.slug) ? -1 : 0))
+          resolve: source =>
+            getNodesByType(`Lesson`)
+              .filter(lesson => lesson.slug.startsWith(source.slug))
+              .sort((a, b) => (a.slug > b.slug ? 1 : b.slug > a.slug ? -1 : 0)),
         },
         coverImage: {
           type: `File`,
@@ -130,11 +126,11 @@ exports.sourceNodes = async ({ getNodesByType, actions, schema }) => {
       },
       interfaces: [`Node`],
     })
-  )
-}
+  );
+};
 
 exports.createPages = async ({ graphql, actions, reporter }) => {
-  const { createPage } = actions
+  const { createPage } = actions;
 
   const result = await graphql(`
     {
@@ -143,12 +139,10 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           title
         }
       }
-      allCourse(
-        sort: { fields: [lastUpdated, title], order: DESC }
-      ) {
+      allCourse(sort: { fields: [lastUpdated, title], order: DESC }) {
         edges {
           node {
-            id 
+            id
             title
             slug
             lessons {
@@ -161,25 +155,25 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         }
       }
     }
-  `)
+  `);
 
   if (result.errors) {
-    reporter.panic(result.errors)
+    reporter.panic(result.errors);
   }
 
   // Create Courses and Course pages.
   const {
     allCourse,
     site: { siteMetadata },
-  } = result.data
-  const courses = allCourse.edges
-  const { title: siteTitle } = siteMetadata
+  } = result.data;
+  const courses = allCourse.edges;
+  const { title: siteTitle } = siteMetadata;
 
   // Create a page for each Course
   courses.forEach(({ node: course }, index) => {
-    const previous = index === courses.length - 1 ? null : courses[index + 1]
-    const next = index === 0 ? null : courses[index - 1]
-    const { slug, lessons } = course
+    const previous = index === courses.length - 1 ? null : courses[index + 1];
+    const next = index === 0 ? null : courses[index - 1];
+    const { slug, lessons } = course;
     createPage({
       path: slug,
       component: CourseTemplate,
@@ -189,24 +183,24 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         previous,
         next,
       },
-    })
+    });
     // Create a page for each Lesson
     lessons.forEach((lesson, index) => {
-      const previous = index === lessons.length - 1 ? null : lessons[index + 1]
-      const next = index === 0 ? null : lessons[index - 1]
+      const previous = index === lessons.length - 1 ? null : lessons[index + 1];
+      const next = index === 0 ? null : lessons[index - 1];
       createPage({
         path: lesson.slug,
         component: LessonTemplate,
         context: {
-          ...lesson, 
+          ...lesson,
           course,
           siteTitle,
           previous,
           next,
         },
-      })
-    })
-  })
+      });
+    });
+  });
 
   // // Create the Courses page
   createPage({
@@ -215,27 +209,26 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     context: {
       siteTitle,
     },
-  })
-  
-}
+  });
+};
 
 // Create fields for course slugs and source
 // This will change with schema customization with work
 exports.onCreateNode = ({ node, actions, getNode, createNodeId }) => {
-  const { createNode, createParentChildLink } = actions
+  const { createNode, createParentChildLink } = actions;
 
   // Make sure it's an MDX node
   if (node.internal.type !== `Mdx`) {
-    return
+    return;
   }
 
   // Create source field (according to contentPath)
-  const fileNode = getNode(node.parent)
-  const source = fileNode.sourceInstanceName
+  const fileNode = getNode(node.parent);
+  const source = fileNode.sourceInstanceName;
 
   // Make sure the source is contentPath
   if (source !== contentPath) {
-    return
+    return;
   }
 
   if (fileNode.name === `index`) {
@@ -244,15 +237,15 @@ exports.onCreateNode = ({ node, actions, getNode, createNodeId }) => {
       node: fileNode,
       getNode,
       basePath: contentPath,
-    })
-    const { title, tags, lastUpdated, coverImage } = node.frontmatter
+    });
+    const { title, tags, lastUpdated, coverImage } = node.frontmatter;
     const fieldData = {
-      title, 
-      tags, 
-      lastUpdated, 
+      title,
+      tags,
+      lastUpdated,
       coverImage,
       slug,
-    }
+    };
     createNode({
       ...fieldData,
       // Required fields.
@@ -268,27 +261,27 @@ exports.onCreateNode = ({ node, actions, getNode, createNodeId }) => {
         content: JSON.stringify(fieldData),
         description: `Courses`,
       },
-    })
-    createParentChildLink({ parent: fileNode, child: node })
+    });
+    createParentChildLink({ parent: fileNode, child: node });
   } else {
     // create lesson node
     const slug = createFilePath({
       node: fileNode,
       getNode,
       basePath: contentPath,
-    })
-    const { title, youtubeId, duration } = node.frontmatter
-    let videoDuration
-    if(youtubeId && !duration) {
+    });
+    const { title, youtubeId, duration } = node.frontmatter;
+    let videoDuration;
+    if (youtubeId && !duration) {
       // TODO: get video duration
-      videoDuration = 1000
+      videoDuration = 1000;
     }
     const fieldData = {
       title,
       duration: duration || videoDuration,
       youtubeId,
       slug,
-    }
+    };
     createNode({
       ...fieldData,
       // Required fields.
@@ -304,7 +297,7 @@ exports.onCreateNode = ({ node, actions, getNode, createNodeId }) => {
         content: JSON.stringify(fieldData),
         description: `Lessons`,
       },
-    })
-    createParentChildLink({ parent: fileNode, child: node })
+    });
+    createParentChildLink({ parent: fileNode, child: node });
   }
-}
+};
