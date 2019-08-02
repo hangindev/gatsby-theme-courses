@@ -39,6 +39,7 @@ module.exports = options => {
           name: options.contentPath || `content/courses`,
         },
       },
+      `gatsby-plugin-styled-components`,
       `gatsby-transformer-sharp`,
       `gatsby-plugin-sharp`,
       `gatsby-plugin-react-helmet`,
