@@ -78,6 +78,8 @@ const CoursePreview = ({
   lastUpdated,
   coverImage,
   lessons,
+  liked,
+  toggleLike,
   className,
 }) => {
   const totalDuration = durationInLongText(
@@ -99,7 +101,7 @@ const CoursePreview = ({
           </CardContent>
         </Link>
         <LikeWrapper>
-          <LoadableLike id={id} />
+          <LoadableLike toggleLike={toggleLike} liked={liked} />
         </LikeWrapper>
       </Card>
     </CardWrapper>

@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import Layout from '../components/Layout';
 import SEO from '../components/seo';
 import CourseList from '../components/CourseList';
-import CoursePreview from '../components/CoursePreview';
 import CoursesHeader from '../components/CoursesHeader';
 import CoursesFooter from '../components/CoursesFooter';
 
@@ -20,12 +19,7 @@ function CoursesPage({ location, data: { allCourse } }) {
       <Wrapper>
         <CoursesHeader />
         <h3>Courses</h3>
-        <CourseList>
-          {courses.length === 0 && <p>No courses.</p>}
-          {courses.map(({ node: course }) => (
-            <CoursePreview key={course.id} {...course} />
-          ))}
-        </CourseList>
+        <CourseList courses={courses} />
         <CoursesFooter />
       </Wrapper>
     </Layout>

@@ -28,28 +28,17 @@ const Heart = styled.button`
   }
 `;
 
-function Like({ className, id }) {
-  const [likes, setLikes] = useLocalStorage('gatsby-theme-courses/likes', {});
+function Like({ className, liked, toggleLike }) {
   const [pop, setPop] = useState(false);
 
-  function toggleLike() {
-    const cloneLikes = { ...likes };
-    if (cloneLikes[id]) {
-      delete cloneLikes[id];
-    } else {
-      cloneLikes[id] = true;
-      setPop(true);
-    }
-    setLikes(cloneLikes);
-  }
-
   useEffect(() => {
-    if (!pop) return;
+    if (!liked) return;
+    setPop(true);
     const timeoutId = setTimeout(() => setPop(false), 350);
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [pop]);
+  }, [liked]);
 
   return (
     <Heart
@@ -58,7 +47,7 @@ function Like({ className, id }) {
         e.stopPropagation();
         toggleLike();
       }}
-      data-hearted={!!likes[id]}
+      data-hearted={liked}
       data-pop={pop}
     >
       <svg
