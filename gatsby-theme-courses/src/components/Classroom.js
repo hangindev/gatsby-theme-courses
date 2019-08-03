@@ -38,7 +38,7 @@ const Screen = styled.div`
   `}
 `;
 
-function Classroom({ location, course, lesson, next, className }) {
+function Classroom({ location, course, currentLesson, nextLesson, className }) {
   const [progess, setProgress] = useLocalStorage(
     'gatsby-theme-courses/progress',
     {}
@@ -46,20 +46,24 @@ function Classroom({ location, course, lesson, next, className }) {
   const [autoplay] = useLocalStorage('gatsby-theme-courses/autoplay', false);
 
   function handleVideoEnd() {
-    setProgress({ ...progess, [lesson.id]: true });
-    if (next && autoplay) {
-      navigate(next.slug);
+    setProgress({ ...progess, [currentLesson.id]: true });
+    if (nextLesson && autoplay) {
+      navigate(nextLesson.slug);
     }
   }
   function renderContent() {
-    if (lesson && lesson.youtubeId) {
-      return <LessonPlayer lesson={lesson} onEnd={handleVideoEnd} />;
+    if (currentLesson && currentLesson.youtubeId) {
+      return <LessonPlayer lesson={currentLesson} onEnd={handleVideoEnd} />;
     }
     if (course.coverImage) {
       return (
         <Img
           fluid={course.coverImage.childImageSharp.fluid}
-          alt={lesson && lesson.title ? lesson.title : course.title}
+          alt={
+            currentLesson && currentLesson.title
+              ? currentLesson.title
+              : course.title
+          }
         />
       );
     }
@@ -75,7 +79,11 @@ function Classroom({ location, course, lesson, next, className }) {
         <Screen>{renderContent()}</Screen>
         <VideoSelector lessons={course.lessons} location={location} />
       </Main>
-      <Note body={lesson && lesson.body ? lesson.body : course.body} />
+      <Note
+        body={
+          currentLesson && currentLesson.body ? currentLesson.body : course.body
+        }
+      />
     </Wrapper>
   );
 }

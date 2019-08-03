@@ -1,16 +1,9 @@
 import React from 'react';
 import { graphql } from 'gatsby';
-import Layout from '../components/Layout';
-import SEO from '../components/seo';
-import Classroom from '../components/Classroom';
+import Course from '../components/Course';
 
 function CoursePage({ location, data: { course } }) {
-  return (
-    <Layout>
-      <SEO title={course.title} keywords={course.tags} />
-      <Classroom course={course} location={location} />
-    </Layout>
-  );
+  return <Course location={location} course={course} />;
 }
 
 export default CoursePage;

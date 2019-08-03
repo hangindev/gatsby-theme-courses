@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import AutoplaySwitch from './AutoplaySwitch';
+import loadable from '@loadable/component';
+
+const LoadableAutoplaySwitch = loadable(() => import('./AutoplaySwitch'));
 
 const Header = styled.div`
   margin-bottom: 0.5rem;
@@ -8,15 +10,19 @@ const Header = styled.div`
     margin: 0;
   }
 `;
-const StyledAutoplaySwitch = styled(AutoplaySwitch)`
+
+const SwitchWrapper = styled.div`
   position: absolute;
   top: 0;
   right: 1rem;
 `;
+
 function NowPlaying({ index, totalLength, title }) {
   return (
     <Header>
-      <StyledAutoplaySwitch />
+      <SwitchWrapper>
+        <LoadableAutoplaySwitch />
+      </SwitchWrapper>
       <small>
         Now playing {index + 1}/{totalLength}
       </small>

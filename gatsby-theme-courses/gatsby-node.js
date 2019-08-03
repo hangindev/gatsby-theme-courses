@@ -182,9 +182,9 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   const { title: siteTitle } = siteMetadata;
 
   // Create a page for each Course
-  courses.forEach(({ node: course }, index) => {
-    const next = index === courses.length - 1 ? null : courses[index + 1];
-    const previous = index === 0 ? null : courses[index - 1];
+  courses.forEach(({ node: course }, i) => {
+    const nextCourse = i === courses.length - 1 ? null : courses[i + 1];
+    const previousCourse = i === 0 ? null : courses[i - 1];
     const { slug, lessons } = course;
     createPage({
       path: slug,
@@ -192,14 +192,14 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       context: {
         ...course,
         siteTitle,
-        previous,
-        next,
+        previousCourse,
+        nextCourse,
       },
     });
     // Create a page for each Lesson
-    lessons.forEach((lesson, index) => {
-      const next = index === lessons.length - 1 ? null : lessons[index + 1];
-      const previous = index === 0 ? null : lessons[index - 1];
+    lessons.forEach((lesson, j) => {
+      const nextLesson = j === lessons.length - 1 ? null : lessons[j + 1];
+      const previousLesson = j === 0 ? null : lessons[j - 1];
       createPage({
         path: lesson.slug,
         component: LessonTemplate,
@@ -207,8 +207,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           ...lesson,
           course,
           siteTitle,
-          previous,
-          next,
+          previousLesson,
+          nextLesson,
           restricted: course.restricted,
         },
       });

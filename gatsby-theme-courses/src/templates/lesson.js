@@ -1,24 +1,19 @@
 import React from 'react';
 import { graphql } from 'gatsby';
-import Layout from '../components/Layout';
-import SEO from '../components/seo';
-import Classroom from '../components/Classroom';
+import Lesson from '../components/Lesson';
 
 function LessonPage({
   location,
-  pageContext: { course, next },
-  data: { lesson },
+  pageContext: { course, nextLesson },
+  data: { currentLesson },
 }) {
   return (
-    <Layout>
-      <SEO title={course.title} />
-      <Classroom
-        course={course}
-        lesson={lesson}
-        location={location}
-        next={next}
-      />
-    </Layout>
+    <Lesson
+      location={location}
+      course={course}
+      currentLesson={currentLesson}
+      nextLesson={nextLesson}
+    />
   );
 }
 
@@ -26,7 +21,7 @@ export default LessonPage;
 
 export const pageQuery = graphql`
   query($id: String!) {
-    lesson(id: { eq: $id }) {
+    currentLesson: lesson(id: { eq: $id }) {
       id
       body
       title
