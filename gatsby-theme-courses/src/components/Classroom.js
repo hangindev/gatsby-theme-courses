@@ -67,7 +67,7 @@ function Classroom({ location, course, lesson, next, className }) {
       </Link>
       <Main>
         <Screen>{renderContent()}</Screen>
-        <VideoSelector course={course} location={location} />
+        <VideoSelector lessons={course.lessons} location={location} />
       </Main>
       <Note body={lesson && lesson.body ? lesson.body : course.body} />
     </Wrapper>

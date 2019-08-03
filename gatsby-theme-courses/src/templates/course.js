@@ -23,6 +23,7 @@ export const pageQuery = graphql`
       body
       title
       slug
+      restricted
       lastUpdated(formatString: "MMMM DD, YYYY")
       lessons {
         slug

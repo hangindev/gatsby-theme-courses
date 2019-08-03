@@ -3,6 +3,7 @@ import { Link } from 'gatsby';
 import Img from 'gatsby-image';
 import styled from 'styled-components';
 import { durationInLongText } from '../utils';
+import Like from './Like';
 
 const BORDER_RADIUS = '5px';
 const CardWrapper = styled.div`
@@ -21,6 +22,7 @@ const CardWrapper = styled.div`
   `}
 `;
 const Card = styled.div`
+  position: relative;
   background: white;
   margin: 0.75rem;
   border-radius: ${BORDER_RADIUS};
@@ -61,8 +63,14 @@ const StyledImg = styled(Img)`
   width: 100%;
   height: 100%;
 `;
+const LikeWrapper = styled.div`
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+`;
 
 const CoursePreview = ({
+  id,
   title,
   slug,
   lastUpdated,
@@ -75,8 +83,8 @@ const CoursePreview = ({
   );
   return (
     <CardWrapper className={className}>
-      <Link to={slug}>
-        <Card>
+      <Card>
+        <Link to={slug}>
           <ImgWrapper>
             <StyledImg fluid={coverImage.childImageSharp.fluid} alt={title} />
           </ImgWrapper>
@@ -87,8 +95,11 @@ const CoursePreview = ({
               {lessons.length} Lessons | Total: {totalDuration}
             </p>
           </CardContent>
-        </Card>
-      </Link>
+        </Link>
+        <LikeWrapper>
+          <Like id={id} />
+        </LikeWrapper>
+      </Card>
     </CardWrapper>
   );
 };

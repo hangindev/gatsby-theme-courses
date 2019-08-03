@@ -10,11 +10,15 @@ function CoursesFooter() {
         }}
       >
         <li>
-          <span role="img" aria-label="white-sqaure">⬜</span>{" "} 
+          <span role="img" aria-label="white-sqaure">
+            ⬜
+          </span>{' '}
           Use Youtube API to read duration
         </li>
         <li>
-          <span role="img" aria-label="white-sqaure">⬜</span>{" "}
+          <span role="img" aria-label="white-sqaure">
+            ⬜
+          </span>{' '}
           Support restricted access
         </li>
       </ul>

@@ -1,12 +1,13 @@
 import React from 'react';
+import { Link } from 'gatsby';
 import styled from 'styled-components';
 import findIndex from 'lodash/findIndex';
 import VideoNav from './VideoNav';
 import VideoList from './VideoList';
-import AutoplaySwitch from './AutoplaySwitch';
+import NowPlaying from './NowPlaying';
 
 const Selector = styled.div`
-  margin: 1rem;
+  margin: 0 1rem;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -19,19 +20,25 @@ const Selector = styled.div`
     margin: 0;
   }
 `;
-const Header = styled.div`
-  margin-bottom: 0.5rem;
-  .title {
-    margin: 0;
+const ButtonText = styled.h6`
+  margin: 0;
+  background-color: ${({ theme }) => theme.colors.primary700};
+  color: white;
+  font-size: 1.2rem;
+  text-align: center;
+  border-radius: 99px;
+  padding: 0.2rem;
+  line-height: 2;
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  transition: all 300ms;
+  &:hover {
+    opacity: 0.9;
   }
 `;
-const StyledAutoplaySwitch = styled(AutoplaySwitch)`
-  position: absolute;
-  top: 0;
-  right: 1rem;
-`;
 
-function VideoSelector({ location, course: { title, lessons }, className }) {
+function VideoSelector({ location, lessons, className }) {
   let nowPlaying;
   let prev;
   let next;
@@ -47,18 +54,18 @@ function VideoSelector({ location, course: { title, lessons }, className }) {
   }
   return (
     <Selector className={className}>
-      <Header>
-        {nowPlaying && (
-          <>
-            <StyledAutoplaySwitch />
-            <small>
-              Now playing {nowPlayingIndex + 1}/{lessons.length}
-            </small>
-            <h3 className="title">{nowPlaying.title}</h3>
-          </>
-        )}
-        {!nowPlaying && <h3 className="title">{title}</h3>}
-      </Header>
+      {nowPlaying && (
+        <NowPlaying
+          index={nowPlayingIndex}
+          totalLength={lessons.length}
+          title={nowPlaying.title}
+        />
+      )}
+      {!nowPlaying && (
+        <Link to={lessons[0].slug}>
+          <ButtonText>Start Learning</ButtonText>
+        </Link>
+      )}
       <VideoNav prev={prev} next={next} />
       <VideoList lessons={lessons} />
     </Selector>

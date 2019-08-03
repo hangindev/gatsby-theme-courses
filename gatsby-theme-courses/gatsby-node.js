@@ -82,6 +82,10 @@ exports.sourceNodes = async ({ getNodesByType, actions, schema }) => {
           type: `String!`,
           resolve: mdxResolverPassthrough(`body`),
         },
+        frontmatter: {
+          type: `MdxFrontmatter`,
+          resolve: mdxResolverPassthrough(`frontmatter`),
+        },
       },
       interfaces: [`Node`],
     })
@@ -99,6 +103,9 @@ exports.sourceNodes = async ({ getNodesByType, actions, schema }) => {
         },
         lastUpdated: { type: `Date`, extensions: { dateformat: {} } },
         tags: { type: `[String]!` },
+        restricted: {
+          type: `String`,
+        },
         excerpt: {
           type: `String!`,
           args: {
@@ -112,6 +119,10 @@ exports.sourceNodes = async ({ getNodesByType, actions, schema }) => {
         body: {
           type: `String!`,
           resolve: mdxResolverPassthrough(`body`),
+        },
+        frontmatter: {
+          type: `MdxFrontmatter`,
+          resolve: mdxResolverPassthrough(`frontmatter`),
         },
         lessons: {
           type: `[Lesson!]`,
@@ -145,6 +156,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             id
             title
             slug
+            restricted
             lessons {
               id
               title
@@ -197,6 +209,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           siteTitle,
           previous,
           next,
+          restricted: course.restricted,
         },
       });
     });
@@ -238,12 +251,12 @@ exports.onCreateNode = ({ node, actions, getNode, createNodeId }) => {
       getNode,
       basePath: contentPath,
     });
-    const { title, tags, lastUpdated, coverImage } = node.frontmatter;
     const fieldData = {
-      title,
-      tags,
-      lastUpdated,
-      coverImage,
+      title: node.frontmatter.title,
+      tags: node.frontmatter.tags,
+      lastUpdated: node.frontmatter.lastUpdated,
+      coverImage: node.frontmatter.coverImage,
+      restricted: node.frontmatter.restricted,
       slug,
     };
     createNode({

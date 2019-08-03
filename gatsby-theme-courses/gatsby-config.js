@@ -1,4 +1,4 @@
-module.exports = options => {
+const config = options => {
   const { mdx = true } = options;
   return {
     siteMetadata: {
@@ -46,3 +46,5 @@ module.exports = options => {
     ].filter(Boolean),
   };
 };
+module.exports = config;
+// module.exports = config({});

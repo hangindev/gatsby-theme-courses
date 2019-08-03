@@ -6,11 +6,17 @@
 
 A Gatsby theme for creating a course platform, using Youtube as video host.
 
-## Features
+## Theme features
 
-- Save learning progress
+📝 Use .mdx file to save course & lesson information and notes.
 
-- Autoplay option
+📹 Youtube as video host
+
+🏍️ Support autoplay
+
+💹 Save learning progress
+
+💖 Bookmark courses
 
 ## Installation
 
@@ -72,6 +78,31 @@ content
               01-how-to-start-a-startup.mdx
               02-team.mdx
               cover.jpg
+```
+
+#### Example course index.mdx file
+
+```sh
+---
+title: "Bitcoin and Cryptocurrency"
+lastUpdated: 2015-02-16
+tags: ["bitcoin", "cryptocurrency", "blockchain"]
+coverImage: "./cover.jpg"
+---
+
+Notes...
+```
+
+#### Example lesson .mdx file
+
+```sh
+---
+title: Intro to Crypto and Cryptocurrencies
+youtubeId: fOMVZXLjKYo
+duration: 3521
+---
+
+Notes...
 ```
 
 ### Override theme
