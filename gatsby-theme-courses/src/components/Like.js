@@ -30,7 +30,7 @@ const Heart = styled.button`
 
 function Like({ className, id }) {
   const [likes, setLikes] = useLocalStorage('gatsby-theme-courses/likes', {});
-  const [pop, setPop] = useState(true);
+  const [pop, setPop] = useState(false);
 
   function toggleLike() {
     const cloneLikes = { ...likes };

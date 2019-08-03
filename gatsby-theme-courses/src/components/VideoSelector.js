@@ -2,9 +2,11 @@ import React from 'react';
 import { Link } from 'gatsby';
 import styled from 'styled-components';
 import findIndex from 'lodash/findIndex';
+import loadable from '@loadable/component';
 import VideoNav from './VideoNav';
-import VideoList from './VideoList';
 import NowPlaying from './NowPlaying';
+
+const LoadableVideoList = loadable(() => import('./VideoList'));
 
 const Selector = styled.div`
   margin: 0 1rem;
@@ -67,7 +69,7 @@ function VideoSelector({ location, lessons, className }) {
         </Link>
       )}
       <VideoNav prev={prev} next={next} />
-      <VideoList lessons={lessons} />
+      <LoadableVideoList lessons={lessons} />
     </Selector>
   );
 }

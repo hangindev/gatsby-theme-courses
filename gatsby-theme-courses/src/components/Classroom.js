@@ -2,12 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link, navigate } from 'gatsby';
 import Img from 'gatsby-image';
-import loadable from '@loadable/component';
 import Note from './Note';
 import LessonPlayer from './LessonPlayer';
+import VideoSelector from './VideoSelector';
 import useLocalStorage from '../hooks/useLocalStorage';
-
-const LoadableVideoSelector = loadable(() => import('./VideoSelector'));
 
 const Wrapper = styled.section`
   padding: 2rem 1rem;
@@ -75,7 +73,7 @@ function Classroom({ location, course, lesson, next, className }) {
       </Link>
       <Main>
         <Screen>{renderContent()}</Screen>
-        <LoadableVideoSelector lessons={course.lessons} location={location} />
+        <VideoSelector lessons={course.lessons} location={location} />
       </Main>
       <Note body={lesson && lesson.body ? lesson.body : course.body} />
     </Wrapper>
