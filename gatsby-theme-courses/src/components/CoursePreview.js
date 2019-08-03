@@ -2,8 +2,10 @@ import React from 'react';
 import { Link } from 'gatsby';
 import Img from 'gatsby-image';
 import styled from 'styled-components';
+import loadable from '@loadable/component';
 import { durationInLongText } from '../utils';
-import Like from './Like';
+
+const LoadableLike = loadable(() => import('./Like'));
 
 const BORDER_RADIUS = '5px';
 const CardWrapper = styled.div`
@@ -97,7 +99,7 @@ const CoursePreview = ({
           </CardContent>
         </Link>
         <LikeWrapper>
-          <Like id={id} />
+          <LoadableLike id={id} />
         </LikeWrapper>
       </Card>
     </CardWrapper>
