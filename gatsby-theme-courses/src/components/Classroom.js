@@ -30,6 +30,12 @@ const Main = styled.div`
 const Screen = styled.div`
   flex: 1;
   position: relative;
+  margin-bottom: 1rem;
+  ${({ theme }) => `
+    ${theme.media.desktop} {
+      margin-bottom:0;
+    }
+  `}
 `;
 
 function Classroom({ location, course, lesson, next, className }) {

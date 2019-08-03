@@ -8,7 +8,7 @@ const List = styled.ul`
   list-style-type: none;
   margin: 0;
   padding: 0;
-  max-height: 450px;
+  max-height: 340px;
   overflow-y: auto;
   li {
     margin: 0;

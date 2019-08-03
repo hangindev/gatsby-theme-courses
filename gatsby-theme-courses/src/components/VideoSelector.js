@@ -61,7 +61,7 @@ function VideoSelector({ location, lessons, className }) {
           title={nowPlaying.title}
         />
       )}
-      {!nowPlaying && (
+      {!nowPlaying && lessons && lessons[0] && (
         <Link to={lessons[0].slug}>
           <ButtonText>Start Learning</ButtonText>
         </Link>
