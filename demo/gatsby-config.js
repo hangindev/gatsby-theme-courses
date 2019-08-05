@@ -3,14 +3,14 @@ module.exports = {
     {
       resolve: `@hangindev/gatsby-theme-courses`,
       options: {
-        contentPath: "content/courses",
+        contentPath: 'content/courses',
       },
     },
   ],
   siteMetadata: {
-    title: `@hangindev/gatsby-theme-courses`,
+    title: `Demo of @hangindev/gatsby-theme-courses`,
     author: `Hangindev`,
-    description: `Demo site of gatsby theme @hangindev/gatsby-theme-courses`,
+    description: `A Gatsby theme for building course platform. Support autoplay, bookmark & progress tracking. Use Youtube as video host`,
     social: [
       {
         name: `github`,
@@ -18,4 +18,4 @@ module.exports = {
       },
     ],
   },
-}
+};
