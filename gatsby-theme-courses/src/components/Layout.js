@@ -11,7 +11,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const Container = styled.div`
-  max-width: ${({ theme }) => theme.maxWidth};
+  max-width: ${theme.maxWidth};
   margin: 0 auto;
 `;
 

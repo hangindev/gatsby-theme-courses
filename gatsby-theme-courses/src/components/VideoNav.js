@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
+import { usePageValue } from '../context/PageContext';
 
 const Nav = styled.nav`
   display: flex;
@@ -10,18 +11,19 @@ const Nav = styled.nav`
   font-size: 0.8rem;
 `;
 
-function VideoNav({ prev, next, className }) {
+function VideoNav({ className }) {
+  const { previousLesson, nextLesson } = usePageValue();
   return (
     <Nav className={className}>
-      {prev ? (
-        <Link to={prev.slug}>
+      {previousLesson ? (
+        <Link to={previousLesson.slug}>
           <span>← prev</span>
         </Link>
       ) : (
         <div />
       )}
-      {next && (
-        <Link to={next.slug}>
+      {nextLesson && (
+        <Link to={nextLesson.slug}>
           <span>next →</span>
         </Link>
       )}

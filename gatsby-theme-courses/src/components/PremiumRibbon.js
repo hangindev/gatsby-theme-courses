@@ -4,7 +4,7 @@ const PremiumRibbon = styled.h6`
   margin: 0;
   position: absolute;
   top: 0px;
-  right: 1.25em;
+  left: 1.25em;
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
   padding: 0.5em 1em;

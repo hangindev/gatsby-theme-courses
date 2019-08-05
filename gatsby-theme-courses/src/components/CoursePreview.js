@@ -2,10 +2,11 @@ import React from 'react';
 import { Link } from 'gatsby';
 import Img from 'gatsby-image';
 import styled from 'styled-components';
-import loadable from '@loadable/component';
-import { durationInLongText } from '../utils';
-
-const LoadableLike = loadable(() => import('./Like'));
+import PropTypes from 'prop-types';
+import durationInLongText from '../utils/durationInLongText';
+import PremiumRibbon from './PremiumRibbon';
+import Like from './Like';
+import { useAppValue } from '../context/AppContext';
 
 const BORDER_RADIUS = '5px';
 const CardWrapper = styled.div`
@@ -78,10 +79,10 @@ const CoursePreview = ({
   lastUpdated,
   coverImage,
   lessons,
-  liked,
-  toggleLike,
+  premium,
   className,
 }) => {
+  const [{ likes }, dispatch] = useAppValue();
   const totalDuration = durationInLongText(
     lessons.reduce((pv, cv) => pv + cv.duration, 0)
   );
@@ -101,11 +102,39 @@ const CoursePreview = ({
           </CardContent>
         </Link>
         <LikeWrapper>
-          <LoadableLike toggleLike={toggleLike} liked={liked} />
+          <Like
+            onChange={liked =>
+              dispatch({
+                type: liked ? 'like' : 'unlike',
+                id,
+              })
+            }
+            initialState={!!likes[id]}
+          />
         </LikeWrapper>
+        {premium && <PremiumRibbon>{premium}</PremiumRibbon>}
       </Card>
     </CardWrapper>
   );
 };
-
+CoursePreview.propTypes = {
+  id: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  slug: PropTypes.string.isRequired,
+  lastUpdated: PropTypes.string.isRequired,
+  coverImage: PropTypes.shape({
+    childImageSharp: PropTypes.shape({
+      fluid: PropTypes.object.isRequired,
+    }),
+  }),
+  lessons: PropTypes.arrayOf(
+    PropTypes.shape({
+      duration: PropTypes.number.isRequired,
+    })
+  ),
+  premium: PropTypes.string,
+};
+CoursePreview.defaultProps = {
+  premium: false,
+};
 export default CoursePreview;

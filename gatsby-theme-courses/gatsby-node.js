@@ -12,9 +12,9 @@ let basePath;
 let contentPath;
 
 // These templates are simply data-fetching wrappers that import components
-const CourseTemplate = require.resolve(`./src/templates/course`);
-const CoursesTemplate = require.resolve(`./src/templates/courses`);
-const LessonTemplate = require.resolve(`./src/templates/lesson`);
+const CourseTemplate = require.resolve(`./src/templates/coursePage`);
+const CoursesTemplate = require.resolve(`./src/templates/coursesPage`);
+const LessonTemplate = require.resolve(`./src/templates/lessonPage`);
 
 // Ensure that content directories exist at site-level
 exports.onPreBootstrap = ({ store }, themeOptions) => {
@@ -103,7 +103,7 @@ exports.sourceNodes = async ({ getNodesByType, actions, schema }) => {
         },
         lastUpdated: { type: `Date`, extensions: { dateformat: {} } },
         tags: { type: `[String]!` },
-        restricted: {
+        premium: {
           type: `String`,
         },
         excerpt: {
@@ -156,7 +156,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             id
             title
             slug
-            restricted
+            premium
             lessons {
               id
               title
@@ -185,33 +185,35 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   courses.forEach(({ node: course }, i) => {
     const nextCourse = i === courses.length - 1 ? null : courses[i + 1];
     const previousCourse = i === 0 ? null : courses[i - 1];
-    const { slug, lessons } = course;
+    const { slug, lessons, premium } = course;
     createPage({
       path: slug,
       component: CourseTemplate,
       context: {
-        ...course,
-        siteTitle,
+        id: course.id,
+        course,
         previousCourse,
         nextCourse,
+        premium,
       },
     });
     // Create a page for each Lesson
     lessons.forEach((lesson, j) => {
       const nextLesson = j === lessons.length - 1 ? null : lessons[j + 1];
       const previousLesson = j === 0 ? null : lessons[j - 1];
-      createPage({
+      const lessonPage = {
         path: lesson.slug,
         component: LessonTemplate,
         context: {
-          ...lesson,
-          course,
-          siteTitle,
+          id: lesson.id,
+          lesson,
+          currentCourse: course,
           previousLesson,
           nextLesson,
-          restricted: course.restricted,
+          premium,
         },
-      });
+      };
+      createPage(lessonPage);
     });
   });
 
@@ -256,7 +258,7 @@ exports.onCreateNode = ({ node, actions, getNode, createNodeId }) => {
       tags: node.frontmatter.tags,
       lastUpdated: node.frontmatter.lastUpdated,
       coverImage: node.frontmatter.coverImage,
-      restricted: node.frontmatter.restricted,
+      premium: node.frontmatter.premium,
       slug,
     };
     createNode({

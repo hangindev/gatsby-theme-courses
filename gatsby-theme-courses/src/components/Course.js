@@ -1,13 +1,15 @@
 import React from 'react';
 import Layout from './Layout';
-import SEO from './seo';
+import SEO from './SEO';
 import Classroom from './Classroom';
+import { usePageValue } from '../context/PageContext';
 
-function Course({ location, course }) {
+function Course() {
+  const { currentCourse } = usePageValue();
   return (
     <Layout>
-      <SEO title={course.title} keywords={course.tags} />
-      <Classroom course={course} location={location} />
+      <SEO title={currentCourse.title} keywords={currentCourse.tags} />
+      <Classroom />
     </Layout>
   );
 }

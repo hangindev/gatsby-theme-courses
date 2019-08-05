@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'gatsby';
-import { durationInText } from '../utils';
-import useLocalStorage from '../hooks/useLocalStorage';
+import durationInText from '../utils/durationInText';
+import { useAppValue } from '../context/AppContext';
+import { usePageValue } from '../context/PageContext';
 
 const List = styled.ul`
   list-style-type: none;
@@ -47,27 +48,31 @@ const Duration = styled.small`
   background: #efefef;
   color: rgba(0, 0, 0, 0.5);
 `;
-function VideoList({ lessons, className }) {
-  const [progess] = useLocalStorage('gatsby-theme-courses/progress', {});
+function VideoList({ className }) {
+  const [{ watched }] = useAppValue();
+  const { currentCourse } = usePageValue();
+  const { lessons } = currentCourse;
   return (
     <List className={className}>
-      {lessons.map((lesson, index) => {
-        const watched = !!progess[lesson.id];
-        return (
-          <li key={lesson.slug}>
-            <Link to={lesson.slug}>
-              <ListItem data-watched={watched}>
-                <p>{index + 1}</p>
-                <p>
-                  {watched ? '✓ ' : ''}
-                  {lesson.title}
-                  <Duration>{durationInText(lesson.duration)}</Duration>{' '}
-                </p>
-              </ListItem>
-            </Link>
-          </li>
-        );
-      })}
+      {/* TODO: creating skeleton */}
+      {lessons &&
+        lessons.map((lesson, index) => {
+          const lessonWatched = !!watched[lesson.id];
+          return (
+            <li key={lesson.slug}>
+              <Link to={lesson.slug}>
+                <ListItem data-watched={lessonWatched}>
+                  <p>{index + 1}</p>
+                  <p>
+                    {lessonWatched ? '✓ ' : ''}
+                    {lesson.title}
+                    <Duration>{durationInText(lesson.duration)}</Duration>{' '}
+                  </p>
+                </ListItem>
+              </Link>
+            </li>
+          );
+        })}
     </List>
   );
 }

@@ -9,6 +9,12 @@
         "tabWidth": 2,
         "trailingComma": "es5"
       }
+    ],
+    "react/prop-types": [
+      2,
+      {
+        "ignore": ["className", "children", "location"]
+      }
     ]
   }
 }

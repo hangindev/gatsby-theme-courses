@@ -1,19 +1,20 @@
 import React from 'react';
-import useLocalStorage from '../hooks/useLocalStorage';
+import { useAppValue } from '../context/AppContext';
 
 function AutoplaySwitch({ className }) {
-  const [autoplay, setAutoplay] = useLocalStorage(
-    'gatsby-theme-courses/autoplay',
-    false
-  );
-
+  const [{ autoplay }, dispatch] = useAppValue();
   return (
     <div className={className}>
       <input
         type="checkbox"
         name="autoplay"
         checked={autoplay}
-        onChange={e => setAutoplay(e.target.checked)}
+        onChange={e =>
+          dispatch({
+            type: 'setAutoplay',
+            autoplay: e.target.checked,
+          })
+        }
       />{' '}
       <small>Autoplay</small>
     </div>

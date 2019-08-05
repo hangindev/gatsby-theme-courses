@@ -1,12 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import loadable from '@loadable/component';
-
-const LoadableAutoplaySwitch = loadable(() => import('./AutoplaySwitch'));
+import PropTypes from 'prop-types';
+import AutoplaySwitch from './AutoplaySwitch';
 
 const Header = styled.div`
   margin-bottom: 0.5rem;
-  .title {
+  > h3 {
     margin: 0;
   }
 `;
@@ -21,13 +20,18 @@ function NowPlaying({ index, totalLength, title }) {
   return (
     <Header>
       <SwitchWrapper>
-        <LoadableAutoplaySwitch />
+        <AutoplaySwitch />
       </SwitchWrapper>
       <small>
         Now playing {index + 1}/{totalLength}
       </small>
-      <h3 className="title">{title}</h3>
+      <h3>{title}</h3>
     </Header>
   );
 }
+NowPlaying.propTypes = {
+  index: PropTypes.number.isRequired,
+  totalLength: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+};
 export default NowPlaying;

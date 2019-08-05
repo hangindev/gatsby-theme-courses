@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
-import useLocalStorage from '../hooks/useLocalStorage';
 
-const pop = keyframes`
+const popRotate = keyframes`
   50%  {
     transform: scale(1.8) rotate(5deg);
   }
@@ -24,12 +24,17 @@ const Heart = styled.button`
     color: #fe456a;
   }
   &[data-pop='true'] {
-    animation: ${pop} 350ms cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    animation: ${popRotate} 350ms cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   }
 `;
 
-function Like({ className, liked, toggleLike }) {
+function Like({ className, onChange, initialState }) {
+  const [liked, setLiked] = useState(initialState);
   const [pop, setPop] = useState(false);
+
+  useEffect(() => {
+    onChange(liked);
+  }, [liked, onChange]);
 
   useEffect(() => {
     if (!liked) return;
@@ -45,22 +50,12 @@ function Like({ className, liked, toggleLike }) {
       className={className}
       onClick={e => {
         e.stopPropagation();
-        toggleLike();
+        setLiked(!liked);
       }}
       data-hearted={liked}
       data-pop={pop}
     >
-      <svg
-        aria-hidden="true"
-        width="1em"
-        height="1em"
-        style={{
-          msTransform: 'rotate(360deg)',
-          WebkitTransform: 'rotate(360deg)',
-        }}
-        viewBox="0 0 36 36"
-        transform="rotate(360)"
-      >
+      <svg aria-hidden="true" width="1em" height="1em" viewBox="0 0 36 36">
         <path
           fill="currentColor"
           stroke="#333333"
@@ -71,5 +66,13 @@ function Like({ className, liked, toggleLike }) {
     </Heart>
   );
 }
+Like.propTypes = {
+  onChange: PropTypes.func,
+  initialState: PropTypes.bool,
+};
+Like.defaultProps = {
+  onChange: () => {},
+  initialState: false,
+};
 
 export default Like;
