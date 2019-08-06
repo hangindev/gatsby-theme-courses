@@ -10,7 +10,7 @@
     "build": "gatsby build"
   },
   "dependencies": {
-    "@hangindev/gatsby-theme-courses": "1.0.19",
+    "@hangindev/gatsby-theme-courses": "1.0.20",
     "build": "^0.1.4",
     "execa": "^2.0.3",
     "gatsby": "^2.13.45",

@@ -1,40 +1,31 @@
 import React, { createContext, useContext, useReducer } from 'react';
-import isBrowser from '../utils/isBrowser';
-
-export const AppContext = createContext();
-
-let localStorage;
-if (!isBrowser()) {
-  localStorage = {
-    getItem: () => {},
-    setItem: () => {},
-  };
-} else {
-  localStorage = window.localStorage;
-}
-const getStorageItem = (key, defaultValue) => {
-  const item = localStorage.getItem(key);
-  return item ? JSON.parse(item) : defaultValue;
-};
-const setStorageItem = (key, value) => {
-  localStorage.setItem(key, JSON.stringify(value));
-};
+import localStorage from '../utils/localStorage';
 
 const AUTOPLAY_KEY = 'gatsby-theme-courses/autoplay';
 const LIKES_KEY = 'gatsby-theme-courses/likes';
-const WATCHED = 'gatsby-theme-courses/watched';
+const WATCHED_KEY = 'gatsby-theme-courses/watched';
+
+export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const initialState = {
-    autoplay: getStorageItem(AUTOPLAY_KEY, false),
-    likes: getStorageItem(LIKES_KEY, {}),
-    watched: getStorageItem(WATCHED, {}),
+    autoplay: false,
+    likes: {},
+    watched: {},
   };
 
   const reducer = (state, action) => {
     switch (action.type) {
+      case 'init': {
+        return {
+          ...state,
+          autoplay: localStorage.getItem(AUTOPLAY_KEY, false),
+          likes: localStorage.getItem(LIKES_KEY, {}),
+          watched: localStorage.getItem(WATCHED_KEY, {}),
+        };
+      }
       case 'setAutoplay': {
-        setStorageItem(AUTOPLAY_KEY, action.autoplay);
+        localStorage.setItem(AUTOPLAY_KEY, action.autoplay);
         return {
           ...state,
           autoplay: action.autoplay,
@@ -47,7 +38,7 @@ export const AppProvider = ({ children }) => {
           return state;
         }
         cloneLikes[id] = true;
-        setStorageItem(LIKES_KEY, cloneLikes);
+        localStorage.setItem(LIKES_KEY, cloneLikes);
         return {
           ...state,
           likes: cloneLikes,
@@ -60,7 +51,7 @@ export const AppProvider = ({ children }) => {
           return state;
         }
         delete cloneLikes[id];
-        setStorageItem(LIKES_KEY, cloneLikes);
+        localStorage.setItem(LIKES_KEY, cloneLikes);
         return {
           ...state,
           likes: cloneLikes,
@@ -73,7 +64,7 @@ export const AppProvider = ({ children }) => {
           return state;
         }
         cloneWatched[id] = true;
-        setStorageItem(WATCHED, cloneWatched);
+        localStorage.setItem(WATCHED_KEY, cloneWatched);
         return {
           ...state,
           watched: cloneWatched,
@@ -86,7 +77,7 @@ export const AppProvider = ({ children }) => {
           return state;
         }
         delete cloneWatched[id];
-        setStorageItem(WATCHED, cloneWatched);
+        localStorage.setItem(WATCHED_KEY, cloneWatched);
         return {
           ...state,
           watched: cloneWatched,

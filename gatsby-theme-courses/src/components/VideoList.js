@@ -27,17 +27,12 @@ const ListItem = styled.div`
     margin: 0;
     font-size: 0.9rem;
     padding: 0.5rem;
-    border-left: 4px solid #e7e7e7;
-    &:first-child {
-      border-left: none;
-    }
   }
-  &[data-watched='true'] {
-    p {
+  p.lessonTitle {
+    transition: all 200ms;
+    border-left: 4px solid #e7e7e7;
+    &[data-watched='true'] {
       border-left: 4px solid ${({ theme }) => theme.colors.primary500};
-      &:first-child {
-        border-left: none;
-      }
     }
   }
 `;
@@ -61,9 +56,9 @@ function VideoList({ className }) {
           return (
             <li key={lesson.slug}>
               <Link to={lesson.slug}>
-                <ListItem data-watched={lessonWatched}>
+                <ListItem>
                   <p>{index + 1}</p>
-                  <p>
+                  <p className="lessonTitle" data-watched={lessonWatched}>
                     {lessonWatched ? '✓ ' : ''}
                     {lesson.title}
                     <Duration>{durationInText(lesson.duration)}</Duration>{' '}
