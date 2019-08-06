@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
+import { ServerStyleSheet } from 'styled-components';
 import { AppProvider } from './src/context/AppContext';
 
 export const replaceRenderer = ({
@@ -8,14 +8,12 @@ export const replaceRenderer = ({
   replaceBodyHTMLString,
   setHeadComponents,
 }) => {
+  const ConnectedBody = () => <AppProvider>{bodyComponent}</AppProvider>;
+  replaceBodyHTMLString(renderToString(<ConnectedBody />));
+
+  // Add styled-components in SSR/build
   const sheet = new ServerStyleSheet();
-  const app = () => (
-    <AppProvider>
-      <StyleSheetManager sheet={sheet.instance}>
-        {bodyComponent}
-      </StyleSheetManager>
-    </AppProvider>
-  );
-  replaceBodyHTMLString(renderToString(<app />));
-  setHeadComponents([sheet.getStyleElement()]);
+  renderToString(sheet.collectStyles(<ConnectedBody />));
+  const styleElement = sheet.getStyleElement();
+  setHeadComponents(styleElement);
 };

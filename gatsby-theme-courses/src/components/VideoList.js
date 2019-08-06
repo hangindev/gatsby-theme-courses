@@ -46,7 +46,7 @@ const Duration = styled.small`
   border-radius: 1px;
   padding: 0.2em 0.4em;
   background: #efefef;
-  color: rgba(0, 0, 0, 0.5);
+  color: ${({ theme }) => theme.colors.grey500};
 `;
 function VideoList({ className }) {
   const [{ watched }] = useAppValue();

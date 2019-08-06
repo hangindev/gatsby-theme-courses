@@ -1,5 +1,5 @@
 import React from 'react';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import ThemeCourses from '@hangindev/gatsby-theme-courses/src/components/Courses';
 
 function Courses() {

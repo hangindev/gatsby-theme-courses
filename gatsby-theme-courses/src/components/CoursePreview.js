@@ -66,7 +66,7 @@ const StyledImg = styled(Img)`
   width: 100%;
   height: 100%;
 `;
-const LikeWrapper = styled.div`
+const StyledLike = styled(Like)`
   position: absolute;
   top: 0.5rem;
   right: 1rem;
@@ -101,17 +101,15 @@ const CoursePreview = ({
             </p>
           </CardContent>
         </Link>
-        <LikeWrapper>
-          <Like
-            onChange={liked =>
-              dispatch({
-                type: liked ? 'like' : 'unlike',
-                id,
-              })
-            }
-            initialState={!!likes[id]}
-          />
-        </LikeWrapper>
+        <StyledLike
+          onChange={liked =>
+            dispatch({
+              type: liked ? 'like' : 'unlike',
+              id,
+            })
+          }
+          liked={!!likes[id]}
+        />
         {premium && <PremiumRibbon>{premium}</PremiumRibbon>}
       </Card>
     </CardWrapper>
