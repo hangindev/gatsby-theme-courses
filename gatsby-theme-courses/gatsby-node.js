@@ -4,6 +4,7 @@ const mkdirp = require(`mkdirp`);
 const crypto = require(`crypto`);
 const Debug = require(`debug`);
 const { createFilePath } = require(`gatsby-source-filesystem`);
+const sortBy = require(`lodash/sortBy`);
 
 const debug = Debug(`gatsby-theme-blog`);
 
@@ -86,6 +87,19 @@ exports.sourceNodes = async ({ getNodesByType, actions, schema }) => {
           type: `MdxFrontmatter`,
           resolve: mdxResolverPassthrough(`frontmatter`),
         },
+        premium: {
+          type: `String`,
+          resolve: (source, args, context) => {
+            const courses = context.nodeModel.getAllNodes({
+              type: 'Course',
+            });
+            const courseSlug = `/${
+              source.slug.split('/')[source.slug.split('/').length - 3]
+            }/`;
+            const course = courses.filter(c => c.slug === courseSlug)[0];
+            return course.premium;
+          },
+        },
       },
       interfaces: [`Node`],
     })
@@ -127,9 +141,12 @@ exports.sourceNodes = async ({ getNodesByType, actions, schema }) => {
         lessons: {
           type: `[Lesson!]`,
           resolve: source =>
-            getNodesByType(`Lesson`)
-              .filter(lesson => lesson.slug.startsWith(source.slug))
-              .sort((a, b) => (a.slug > b.slug ? 1 : b.slug > a.slug ? -1 : 0)),
+            sortBy(
+              getNodesByType(`Lesson`).filter(lesson =>
+                lesson.slug.startsWith(source.slug)
+              ),
+              ['slug']
+            ),
         },
         coverImage: {
           type: `File`,

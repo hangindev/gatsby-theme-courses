@@ -60,6 +60,7 @@ LessonPage.propTypes = {
       body: PropTypes.string,
       duration: PropTypes.number,
       youtubeId: PropTypes.string,
+      premium: PropTypes.string,
     }),
   }),
 };
@@ -73,6 +74,7 @@ export const pageQuery = graphql`
       title
       duration
       youtubeId
+      premium
     }
   }
 `;
