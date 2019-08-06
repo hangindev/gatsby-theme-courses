@@ -15,13 +15,13 @@ const Wrapper = styled.div`
     position: relative;
     cursor: pointer;
     z-index: 10;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  input:checked + label {
+    color: #fe456a;
   }
   svg {
     transition: all 200ms;
-    color: rgba(255, 255, 255, 0.9);
-    &[data-liked='true'] {
-      color: #fe456a;
-    }
     &[data-pop='true'] {
       animation: ${popRotate} 350ms cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
     }
@@ -43,25 +43,24 @@ function Like({ className, onChange, liked }) {
 
   return (
     <Wrapper className={className}>
+      <input
+        hidden
+        type="checkbox"
+        name="like"
+        id={id}
+        checked={liked}
+        onChange={e => {
+          e.stopPropagation();
+          onChange(e.target.checked);
+        }}
+      />
       <label htmlFor={id}>
-        <input
-          hidden
-          type="checkbox"
-          name="like"
-          id={id}
-          checked={liked}
-          onChange={e => {
-            e.stopPropagation();
-            onChange(e.target.checked);
-          }}
-        />
         <svg
           aria-hidden="true"
           width="1em"
           height="1em"
           viewBox="0 0 36 36"
           data-pop={pop}
-          data-liked={liked}
         >
           <path
             fill="currentColor"
